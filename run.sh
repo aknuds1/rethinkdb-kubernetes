@@ -66,6 +66,7 @@ if [[ -n "${PROXY}" ]]; then
     proxy \
     --canonical-address ${POD_IP} \
     --bind all \
+    --initial-password ${RETHINKDB_PASSWORD}
     ${JOIN_ENDPOINTS} \
     ${@}
 else
@@ -74,6 +75,7 @@ else
     --server-name ${SERVER_NAME} \
     --canonical-address ${POD_IP} \
     --bind all \
+    --initial-password ${RETHINKDB_PASSWORD}
     ${JOIN_ENDPOINTS} \
     ${@}
 fi

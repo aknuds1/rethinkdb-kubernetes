@@ -26,6 +26,9 @@ func main() {
 		log.Fatalln(err.Error())
 	}
 
+	username := "admin"
+	password := os.Getenv("RETHINKDB_PASSWORD")
+
 	certPool := x509.NewCertPool()
 	if !certPool.AppendCertsFromPEM([]byte(caPem)) {
 		log.Fatalln("Couldn't parse $RETHINKDB_CA_CERT")
@@ -33,6 +36,8 @@ func main() {
 	session, err := r.Connect(r.ConnectOpts{
 		Address:  url,
 		Database: "rethinkdb",
+		Username: username,
+		Password: password,
 		TLSConfig: &tls.Config{
 			RootCAs: certPool,
 		},
