@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/tls"
+	"crypto/x509"
 	"log"
 	"os"
 
@@ -9,21 +10,27 @@ import (
 )
 
 func main() {
-
 	url := os.Getenv("RETHINKDB_URL")
-
 	if url == "" {
 		url = "localhost:28015"
 	}
 
+	caPem := os.Getenv("RETHINKDB_CA_CERT")
+	if caPem == "" {
+		log.Fatalln("You must provide $RETHINKDB_CA_CERT")
+	}
+
+	certPool := x509.NewCertPool()
+	if !certPool.AppendCertsFromPEM([]byte(caPem)) {
+		log.Fatalln("Couldn't parse $RETHINKDB_CA_CERT")
+	}
 	session, err := r.Connect(r.ConnectOpts{
 		Address:  url,
 		Database: "rethinkdb",
 		TLSConfig: &tls.Config{
-			RootCAs: nil,
+			RootCAs: certPool,
 		},
 	})
-
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
@@ -35,9 +42,8 @@ func main() {
 	defer res.Close()
 
 	if res.IsNil() {
-		log.Fatalln("no server status results found")
+		log.Fatalln("No server status results found")
 	}
 
 	log.Printf("A-OK!")
-
 }
