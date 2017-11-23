@@ -1,6 +1,6 @@
-FROM rethinkdb:2.3.5
+FROM rethinkdb:2.3.6
 
-MAINTAINER Ross Kukulinski <ross@kukulinski.com>
+MAINTAINER Arve Knudsen <arve.knudsen@gmail.com>
 
 RUN apt-get update && \
     apt-get install -yq curl && \
@@ -12,7 +12,7 @@ RUN chmod +x /usr/bin/jq
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init
 
-COPY ./run.sh ./probe ./ready-probe.sh /
-RUN chmod u+x /run.sh /probe /ready-probe.sh
+COPY ./run.sh ./probe /
+RUN chmod u+x /run.sh /probe
 
 ENTRYPOINT ["/usr/local/bin/dumb-init", "/run.sh"]

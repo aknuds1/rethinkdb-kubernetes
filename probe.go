@@ -1,11 +1,12 @@
 package main
 
 import (
+	"crypto/tls"
 	"log"
 	"os"
-	r "gopkg.in/gorethink/gorethink.v2"
-)
 
+	r "gopkg.in/gorethink/gorethink.v3"
+)
 
 func main() {
 
@@ -16,8 +17,11 @@ func main() {
 	}
 
 	session, err := r.Connect(r.ConnectOpts{
-		Address: url,
+		Address:  url,
 		Database: "rethinkdb",
+		TLSConfig: &tls.Config{
+			RootCAs: nil,
+		},
 	})
 
 	if err != nil {
@@ -37,4 +41,3 @@ func main() {
 	log.Printf("A-OK!")
 
 }
-

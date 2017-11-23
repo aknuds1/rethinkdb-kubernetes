@@ -1,5 +1,5 @@
-FROM golang:1.6
-MAINTAINER Chris Dornsife <chris@applariat.com>
+FROM golang:1.9
+MAINTAINER Arve Knudsen <arve.knudsen@gmail.com>
 
 # Build container to have a consistent go build environment
 
