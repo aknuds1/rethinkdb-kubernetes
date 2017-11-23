@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -15,9 +16,14 @@ func main() {
 		url = "localhost:28015"
 	}
 
-	caPem := os.Getenv("RETHINKDB_CA_CERT")
-	if caPem == "" {
+	caPemPath := os.Getenv("RETHINKDB_CA_CERT")
+	if caPemPath == "" {
 		log.Fatalln("You must provide $RETHINKDB_CA_CERT")
+	}
+
+	caPem, err := ioutil.ReadFile(caPemPath)
+	if err != nil {
+		log.Fatalln(err.Error())
 	}
 
 	certPool := x509.NewCertPool()
