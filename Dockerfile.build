@@ -1,4 +1,4 @@
-FROM golang:1.9
+FROM golang:1.13
 MAINTAINER Arve Knudsen <arve.knudsen@gmail.com>
 
 # Build container to have a consistent go build environment
