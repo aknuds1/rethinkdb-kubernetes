@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	r "gopkg.in/gorethink/gorethink.v3"
+	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
 func main() {
